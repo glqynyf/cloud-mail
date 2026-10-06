@@ -18,7 +18,8 @@ export default {
 		}
 
 		 if (['/static/','/attachments/'].some(p => url.pathname.startsWith(p))) {
-			 return await kvObjService.toObjResp( { env }, url.pathname.substring(1));
+			 const objResp = await kvObjService.toObjResp( { env }, url.pathname.substring(1));
+			 return objResp instanceof Response ? objResp : new Response('Not Found', { status: 404 });
 		 }
 
 		return env.assets.fetch(req);
